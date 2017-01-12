@@ -49,8 +49,9 @@ function fastbootExpressMiddleware(distPath, options) {
 
           log(result.statusCode, statusMessage + path);
           res.status(result.statusCode);
-          if (req.header('langAttr')) {
-              html = html.replace('<html ', '<html lang="' + req.header('langAttr') + '" ');
+          var urlLocale = path.match(/^\/((\w|-|_)*)?(\/|$)/)[1];
+          if (urlLocale !== undefined) {
+              html = html.replace('<html ', '<html lang="' + urlLocale + '" ');
           }
           res.send(html);
         })
