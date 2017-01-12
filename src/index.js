@@ -49,7 +49,10 @@ function fastbootExpressMiddleware(distPath, options) {
 
           log(result.statusCode, statusMessage + path);
           res.status(result.statusCode);
-          res.send(html.replace('<html ', '<html lang="ru" ');
+          if (req.header('langAttr')) {
+              html = html.replace('<html ', '<html lang="' + req.header('langAttr') + '" ');
+          }
+          res.send(html);
         })
         .catch(error => {
           res.status(500);
